@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:00:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/04 13:39:17 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:33:07 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	pipex(int fd1, int fd2, char **argv, char **env)
 		parent_process(fd2, argv[3]);
 }
 
-int	main(int argc, char **argv, char **env)
+int	x(int argc, char **argv, char **env)
 {
 	int	fd1;
 	int	fd2;
@@ -70,24 +70,34 @@ int	main(int argc, char **argv, char **env)
 	pipex(fd1, fd2, argv, env);
 	return (0);
 }
+//........................................................................
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	int		fd;
-// 	char	*file;
 
-// 	file = argv[1];
-// 	if (argc == 2)
-// 	{
-// 		if (!access(file, W_OK))
-// 		{
-// 			fd = open(file, O_WRONLY | O_CREAT, 0644);
-// 			dup2(fd, STDOUT_FILENO);
-// 			close(fd);
-// 			printf("I do have permission to write in this file\n");
-// 		}
-// 		else
-// 			printf("I have no permission to write in this file");
-// 	}
-// 	return (0);
-// }
+exec()
+{
+	pipe();
+	fork();
+	if (child)
+	{
+		dup2();
+		execve();
+	}
+	else
+	{
+		close();
+	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	if (argc != 5)
+		return (EXIT_FAILURE);
+	open_pipes();
+	fetch_args();
+	parse_cmds();
+	parse_args();
+	while ()
+		exec();
+	cleanup();
+	return (EXIT_SUCCESS);
+}
