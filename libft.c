@@ -1,16 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/06 14:57:47 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/13 14:31:44 by otuyishi         ###   ########.fr       */
+/*   Created: 2023/04/07 18:29:45 by otuyishi          #+#    #+#             */
+/*   Updated: 2023/09/15 11:25:39 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+size_t	ft_strlen(const char *str)
+{
+	int	count;
+
+	count = 0;
+	while (*str != '\0')
+	{
+		count++;
+		str++;
+	}
+	return (count);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+	write(fd, "\n", 1);
+}
+
+int	ft_strncmp(const char *str1, const char *str2, size_t n)
+{
+	size_t	count;
+
+	count = 0;
+	if (n == 0)
+		return (0);
+	while (str1[count] == str2[count] && str1[count] != '\0' && count < (n - 1))
+		count++;
+	return ((unsigned char)str1[count] - (unsigned char)str2[count]);
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -37,4 +71,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	c_s[count2] = 0;
 	return (c_s);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	s_len;
+	char	*s2;
+
+	s_len = ft_strlen(s1) + 1;
+	s2 = malloc(s_len);
+	if (s2 == NULL)
+		return (NULL);
+	return ((char *)ft_memcpy(s2, s1, s_len));
 }

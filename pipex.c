@@ -5,99 +5,87 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/31 17:00:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/12 15:33:07 by otuyishi         ###   ########.fr       */
+/*   Created: 2023/09/15 11:30:39 by otuyishi          #+#    #+#             */
+/*   Updated: 2023/09/15 13:06:51 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	child_process(int fd1, char *cmd1)
+void	free_up(char **path)
 {
-	int	fd2;
+	t_pipe	pi;
 
-	if (dup2(fd1, fd2) < 0)
-		return ("Dup failure");
-	close(stdin);
-	dup2(fd1, STDIN_FILENO);
-	dup2(end[1], STDOUT_FILENO);
-	close(end[0]);
-	close(fd1);
-	// excve
-	exit(EXIT_FAILURE);
+	pi.i = -1;
+	while (path[++pi.i])
+		free(path[pi.i]);
+	free(pi.path);
 }
 
-void	parent_process(int fd2, char *cmd2)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	int	status;
+	size_t		count;
+	char		*dst_dst;
+	const char	*src_src;
 
-	waitpid(-1, &status, 0);
-	if (dup2(fd1, fd2) < 0)
-		return ("Dup failure");
-	close(stdin);
-	dup2(fd2, STDOUT_FILENO);
-	dup2(end[0], STDOUT_FILENO);
-	close(end[1]);
-	close(fd2);
-	//excve
-	exit(EXIT_FAILURE);
-}
-
-void	pipex(int fd1, int fd2, char **argv, char **env)
-{
-	int		end[2];
-	pid_t	parent;
-
-	pipe(end);
-	parent = fork();
-	if (parent < 0)
-		return (perror("Fork: No infile created"));
-	if (parent == 0)
-		child_process(fd1, argv[2]);
-	else
-		parent_process(fd2, argv[3]);
-}
-
-int	x(int argc, char **argv, char **env)
-{
-	int	fd1;
-	int	fd2;
-
-	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[4], O_CREAT | O_RDONLY | O_TRUNC, 0644);
-	if (fd1 < 0 || fd2 < 0)
-		return (-1);
-	pipex(fd1, fd2, argv, env);
-	return (0);
-}
-//........................................................................
-
-
-exec()
-{
-	pipe();
-	fork();
-	if (child)
+	count = 0;
+	dst_dst = (char *)dst;
+	src_src = (const char *)src;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	while (count < n)
 	{
-		dup2();
-		execve();
+		dst_dst[count] = src_src[count];
+		count++;
 	}
-	else
-	{
-		close();
-	}
+	return (dst);
 }
 
-int	main(int argc, char **argv, char **env)
+char	**parse_path(char **env)
 {
-	if (argc != 5)
-		return (EXIT_FAILURE);
-	open_pipes();
-	fetch_args();
-	parse_cmds();
-	parse_args();
-	while ()
-		exec();
-	cleanup();
-	return (EXIT_SUCCESS);
+	t_pipe	pi;
+
+	pi.i = -1;
+	pi.path = 0;
+	while (env[++pi.i])
+	{
+		if (ft_strncmp(env[pi.i], "PATH=", 5) == 0)
+		{
+			pi.path = ft_split(env[pi.i], ':');
+			if (!pi.path)
+				return (env);
+			pi.j = -1;
+			while (pi.path[++pi.j])
+			{
+				pi.tmp = pi.path[pi.j];
+				pi.path[pi.j] = ft_strjoin(pi.tmp, "/");
+				free(pi.tmp);
+			}
+		}
+	}
+	return (pi.path);
+}
+
+int	execute(char *str_cmds, char **env)
+{
+	t_pipe	pi;
+
+	pi.path = parse_path(env);
+	pi.cmd = ft_split(str_cmds, ' ');
+	while (pi.path[++pi.i])
+	{
+		pi.path_cmd = ft_strjoin(pi.path[pi.i], pi.cmd[0]);
+		if (access(pi.path_cmd, F_OK | X_OK) == 0)
+		{
+			free_up(pi.path);
+			if (execve(pi.path_cmd, pi.cmd, env) == -1)
+			{
+				free_up(pi.cmd);
+				ft_putendl_fd("Command Error", 2);
+				return (EXIT_FAILURE);
+			}
+		}
+		free(pi.path_cmd);
+	}
+	return (1);
 }

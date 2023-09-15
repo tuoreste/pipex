@@ -6,32 +6,32 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/04 10:33:39 by otuyishi          #+#    #+#              #
-#    Updated: 2023/09/04 10:35:45 by otuyishi         ###   ########.fr        #
+#    Updated: 2023/09/15 13:21:09 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := fractol
+NAME := pipex
 
-CFLAGS := -Wextra -Wall -Werror -g -fsanitize=address
+CC := gcc
+CFLAGS := -Wextra -Wall -Werror #-g -fsanitize=address
+# LDFLAGS := -fsanitize=address
 
-
-SRCS := pipex.c
-
-OBJS := $(SRCS:.c=.o) 
+SRCS := main.c pipex.c ft_split.c libft.c
+OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJS)
 
 fclean: clean
-	rm -f $(OBJS) $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
