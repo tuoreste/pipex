@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:01:57 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/15 13:10:01 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:22:40 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <errno.h>
 
 typedef struct s_pipe
 {
@@ -25,9 +26,11 @@ typedef struct s_pipe
 	char	**path;
 	char	**cmd;
 	char	*path_cmd;
-	int		out_file;
-	int		in_file;
 	char	*tmp;
+	pid_t	pid;
+	int		status;
+	char	**cmd_ein;
+	char	**cmd_zwei;
 }			t_pipe;
 
 //libft
@@ -40,10 +43,11 @@ void	ft_putendl_fd(char *s, int fd);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 
 //pipex
-int		execute(char *str_cmds, char **env);
+// int		execute(char *str_cmds, char **env);
+int		execute_command(char *str_cmds, char **env);
+// void	execute_command(char *command, char **env);
 char	**parse_path(char **env);
 void	free_up(char **path);
-
 //main
 int		main(int argc, char **argv, char **env);
 int		child_process(char **argv, char **env, int *fd);
