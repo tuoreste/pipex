@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:30:39 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/10/02 08:24:32 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:06:05 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**parse_path(char **env)
 	return (pi.path);
 }
 
-int	execute_command(char *str_cmds, char **env)
+char	*execute_command(char *str_cmds, char **env)
 {
 	t_pipe	pi;
 
@@ -81,11 +81,8 @@ int	execute_command(char *str_cmds, char **env)
 	{
 		pi.path_cmd = ft_strjoin(pi.path[pi.i], pi.cmd[0]);
 		if (access(pi.path_cmd, F_OK | X_OK) == 0)
-		{
-			if (execve(pi.path_cmd, pi.cmd, env) == -1)
-				error("Execution Error");
-		}
+			return (pi.path_cmd);
 		free(pi.path_cmd);
 	}
-	exit(0);
+	return (pi.cmd[0]);
 }

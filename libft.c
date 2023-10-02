@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 18:29:45 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/15 11:25:39 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:16:58 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	iter;
+
+	iter = 0;
+	if (s != 0)
+	{
+		while (s[iter])
+		{
+			write (fd, &s[iter], 1);
+			iter++;
+		}
+	}
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -71,16 +86,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	c_s[count2] = 0;
 	return (c_s);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	size_t	s_len;
-	char	*s2;
-
-	s_len = ft_strlen(s1) + 1;
-	s2 = malloc(s_len);
-	if (s2 == NULL)
-		return (NULL);
-	return ((char *)ft_memcpy(s2, s1, s_len));
 }

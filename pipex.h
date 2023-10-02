@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:01:57 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/29 10:40:43 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:14:44 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ int		child1_process(char **argv, char **env, int *fd, char **cmd1_argv);
 
 //libft
 char	**ft_split(char const *str, char c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_putendl_fd(char *s, int fd);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
 
 //main
 void	error(char *s);
@@ -56,6 +59,6 @@ int		main(int argc, char **argv, char **env);
 //pipex
 void	free_up(char **path);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	**parse_path(char **env);
-int		execute_command(char *str_cmds, char **env);
+char	*execute_command(char *str_cmds, char **env);
+
 #endif

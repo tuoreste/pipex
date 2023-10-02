@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:00:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/29 10:38:22 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:50:24 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ void	error(char *s)
 
 void	kid(char **argv, char **env, int *fd)
 {
-	t_pipe	p;
+	t_pipe	pi;
 
 	close(fd[0]);
-	p.cmd_ein = (char **)malloc(2 * sizeof(char *));
-	if (p.cmd_ein == NULL)
+	pi.cmd_ein = (char **)malloc(2 * sizeof(char *));
+	if (pi.cmd_ein == NULL)
 		error("Memory allocation error");
-	p.cmd_ein[0] = ft_strdup(argv[2]);
-	p.cmd_ein[1] = NULL;
-	child1_process(argv, env, fd, p.cmd_ein);
-	free(p.cmd_ein[0]);
-	free(p.cmd_ein);
+	pi.cmd_ein[0] = ft_strdup(argv[2]);
+	pi.cmd_ein[1] = NULL;
+	child1_process(argv, env, fd, pi.cmd_ein);
+	free(pi.cmd_ein[0]);
+	free(pi.cmd_ein);
 }
 
 void	dad(char **argv, char **env, int *fd)
@@ -52,15 +52,10 @@ void	dad(char **argv, char **env, int *fd)
 		free(p.cmd_zwei[0]);
 		free(p.cmd_zwei);
 	}
-	else
-	{
-		waitpid(-1, &p.status, 0);
-		waitpid(-1, &p.status, 0);
-		exit(EXIT_SUCCESS);
-	}
+	waitpid(p.pid, &p.status, 0);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char *envp[])
 {
 	t_pipe	p;
 	int		fd[2];
@@ -73,8 +68,12 @@ int	main(int argc, char **argv, char **env)
 	if (p.pid == -1)
 		error("First Child Pipe Error");
 	if (p.pid == 0)
-		kid(argv, env, fd);
+		kid(argv, envp, fd);
 	else
-		dad(argv, env, fd);
-	exit(EXIT_FAILURE);
+	{
+		dad(argv, envp, fd);
+		waitpid(p.pid, NULL, 0);
+	}
+	waitpid(p.pid, NULL, 0);
+	exit(EXIT_SUCCESS);
 }
