@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:01:57 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/26 19:22:40 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/09/29 10:40:43 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ typedef struct s_pipe
 	char	**cmd_zwei;
 }			t_pipe;
 
+//ft_utils
+int		parent_process(char **argv, char **env, int *fd);
+int		child2_process(char **argv, char **env, int *fd, char **cmd2_argv);
+int		child1_process(char **argv, char **env, int *fd, char **cmd1_argv);
+
 //libft
 char	**ft_split(char const *str, char c);
 char	*ft_strdup(const char *s1);
@@ -42,15 +47,15 @@ char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_putendl_fd(char *s, int fd);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 
-//pipex
-// int		execute(char *str_cmds, char **env);
-int		execute_command(char *str_cmds, char **env);
-// void	execute_command(char *command, char **env);
-char	**parse_path(char **env);
-void	free_up(char **path);
 //main
+void	error(char *s);
+void	kid(char **argv, char **env, int *fd);
+void	dad(char **argv, char **env, int *fd);
 int		main(int argc, char **argv, char **env);
-int		child_process(char **argv, char **env, int *fd);
-int		parent_process(char **argv, char **env, int *fd);
 
+//pipex
+void	free_up(char **path);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	**parse_path(char **env);
+int		execute_command(char *str_cmds, char **env);
 #endif

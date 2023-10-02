@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:30:39 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/09/26 16:01:31 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:24:32 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,19 @@ int	execute_command(char *str_cmds, char **env)
 	pi.i = -1;
 	pi.path = parse_path(env);
 	if (!pi.path)
-	{
-		ft_putendl_fd("Path Error", 2);
-		exit(1);
-	}
+		error("Path Error");
 	pi.cmd = ft_split(str_cmds, ' ');
 	if (!pi.cmd)
-	{
-		free_up(pi.path);
-		ft_putendl_fd("Command Error", 2);
-		exit(1);
-	}
+		error("Command Error");
 	while (pi.path[++pi.i])
 	{
 		pi.path_cmd = ft_strjoin(pi.path[pi.i], pi.cmd[0]);
 		if (access(pi.path_cmd, F_OK | X_OK) == 0)
 		{
 			if (execve(pi.path_cmd, pi.cmd, env) == -1)
-			{
-				ft_putendl_fd("Execution Error", 2);
-				break ;
-			}
+				error("Execution Error");
 		}
 		free(pi.path_cmd);
 	}
-	free_up(pi.path);
-	free_up(pi.cmd);
 	exit(0);
 }

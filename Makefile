@@ -6,7 +6,7 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/04 10:33:39 by otuyishi          #+#    #+#              #
-#    Updated: 2023/09/26 19:11:51 by otuyishi         ###   ########.fr        #
+#    Updated: 2023/09/29 10:35:05 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC := gcc
 CFLAGS := -Wextra -Wall -Werror #-g -fsanitize=address
 # LDFLAGS := -fsanitize=address
 
-SRCS := main.c pipex.c ft_split.c libft.c
+SRCS := main.c pipex.c ft_split.c libft.c ft_utils.c
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
