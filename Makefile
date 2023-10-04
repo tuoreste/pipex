@@ -6,13 +6,13 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/04 10:33:39 by otuyishi          #+#    #+#              #
-#    Updated: 2023/09/29 10:35:05 by otuyishi         ###   ########.fr        #
+#    Updated: 2023/10/04 09:55:01 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := pipex
 
-CC := gcc
+CC := cc
 CFLAGS := -Wextra -Wall -Werror #-g -fsanitize=address
 # LDFLAGS := -fsanitize=address
 

@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 10:32:43 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/10/02 14:17:03 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:47:36 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,9 @@ int	child1_process(char **argv, char **env, int *fd, char **cmd1_argv)
 	int		infile;
 
 	if (access(argv[1], F_OK) != 0)
-	{
-		perror("No such file error\n");
-		exit(1);
-	}
+		error("Infile/Directory does not exist error");
 	if (access(argv[1], R_OK) != 0)
-	{
-		perror("Permission Denied Error");
-		exit(1);
-	}
+		error("Infile Permission Denied Error");
 	infile = open(argv[1], O_RDONLY);
 	dup2(fd[1], 1);
 	dup2(infile, 0);
@@ -86,10 +80,7 @@ int	parent_process(char **argv, char **env, int *fd)
 
 	out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (out == -1)
-	{
-		perror("Permission Denied Error");
-		exit(1);
-	}
+		error("Permission Denied Error");
 	dup2(fd[0], 0);
 	dup2(out, 1);
 	close(fd[0]);

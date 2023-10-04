@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:00:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/10/02 18:50:24 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:01:32 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,21 @@ void	dad(char **argv, char **env, int *fd)
 		error("Second Child Pipe Error");
 	if (p.pid == 0)
 	{
-		p.cmd_zwei = (char **)malloc(2 * sizeof(char *));
-		if (p.cmd_zwei == NULL)
-			error("Memory allocation error");
-		p.cmd_zwei[0] = ft_strdup(argv[3]);
-		p.cmd_zwei[1] = NULL;
+		//----------------------------------------------------------
+		if (argv[3])
+		{
+			p.cmd_zwei = (char **)malloc(2 * sizeof(char *));
+			if (p.cmd_zwei == NULL)
+				error("Memory allocation error");
+			p.cmd_zwei[0] = ft_strdup(argv[3]);
+			p.cmd_zwei[1] = NULL;
+		}
+		else
+			error("Permission Denied");
 		child2_process(argv, env, fd, p.cmd_zwei);
 		free(p.cmd_zwei[0]);
 		free(p.cmd_zwei);
+		//----------------------------------------------------------
 	}
 	waitpid(p.pid, &p.status, 0);
 }
@@ -70,10 +77,7 @@ int	main(int argc, char **argv, char *envp[])
 	if (p.pid == 0)
 		kid(argv, envp, fd);
 	else
-	{
 		dad(argv, envp, fd);
-		waitpid(p.pid, NULL, 0);
-	}
 	waitpid(p.pid, NULL, 0);
 	exit(EXIT_SUCCESS);
 }
