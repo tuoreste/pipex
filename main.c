@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:00:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/10/04 18:01:32 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:25:12 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	kid(char **argv, char **env, int *fd)
 	close(fd[0]);
 	pi.cmd_ein = (char **)malloc(2 * sizeof(char *));
 	if (pi.cmd_ein == NULL)
-		error("Memory allocation error");
+		error("Error: Memory Allocation Problem");
 	pi.cmd_ein[0] = ft_strdup(argv[2]);
 	pi.cmd_ein[1] = NULL;
 	child1_process(argv, env, fd, pi.cmd_ein);
@@ -40,24 +40,22 @@ void	dad(char **argv, char **env, int *fd)
 	close(fd[1]);
 	p.pid = fork();
 	if (p.pid == -1)
-		error("Second Child Pipe Error");
+		error("Error: Second Child Pipe Problem");
 	if (p.pid == 0)
 	{
-		//----------------------------------------------------------
 		if (argv[3])
 		{
 			p.cmd_zwei = (char **)malloc(2 * sizeof(char *));
 			if (p.cmd_zwei == NULL)
-				error("Memory allocation error");
+				error("Memory Allocation Error");
 			p.cmd_zwei[0] = ft_strdup(argv[3]);
 			p.cmd_zwei[1] = NULL;
 		}
 		else
-			error("Permission Denied");
+			error("Error: Permission Denied");
 		child2_process(argv, env, fd, p.cmd_zwei);
 		free(p.cmd_zwei[0]);
 		free(p.cmd_zwei);
-		//----------------------------------------------------------
 	}
 	waitpid(p.pid, &p.status, 0);
 }
@@ -68,12 +66,14 @@ int	main(int argc, char **argv, char *envp[])
 	int		fd[2];
 
 	if (argc != 5)
-		error("Wrong number of inputs");
+		error("Error: Wrong Number of Inputs");
+	if (ft_strlen(argv[3]) == 0)
+		error("Error: Permission Denied");
 	if (pipe(fd) == -1)
-		error("Pipe creation error");
+		error("Error: Pipe Creation Problem");
 	p.pid = fork();
 	if (p.pid == -1)
-		error("First Child Pipe Error");
+		error("Error: First Child Pipe Problem");
 	if (p.pid == 0)
 		kid(argv, envp, fd);
 	else

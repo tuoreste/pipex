@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 18:29:45 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/10/03 14:30:47 by otuyishi         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:19:12 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_putstr_fd(char *s, int fd)
 	{
 		while (s[iter])
 		{
-			write (fd, &s[iter], 1);
+			write(fd, &s[iter], 1);
 			iter++;
 		}
 	}
@@ -56,7 +56,8 @@ int	ft_strncmp(const char *str1, const char *str2, size_t n)
 	count = 0;
 	if (n == 0)
 		return (0);
-	while (str1[count] == str2[count] && str1[count] != '\0' && count < (n - 1))
+	while (str1[count] == str2[count] && str1[count] != '\0'\
+		&& count < (n - 1))
 		count++;
 	return ((unsigned char)str1[count] - (unsigned char)str2[count]);
 }
