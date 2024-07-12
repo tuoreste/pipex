@@ -1,4 +1,4 @@
-# Pipex
+## Pipex
 
 Pipex is a project that simulates the behavior of the shell pipe (`|`) in a Unix-like operating system. This project demonstrates the use of multiple processes and inter-process communication through pipes. The goal is to take command-line arguments and use them to execute shell commands with input/output redirection.
 
