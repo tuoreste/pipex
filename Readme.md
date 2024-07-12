@@ -79,6 +79,10 @@ To compile and run the `pipex` program, follow these steps:
 
 The program will read from `infile`, execute `cmd1` and `cmd2`, and write the result to `outfile`.
 
+### OR simply on your terminal run(replace cmd1 and cmd2 with commands of your choice):
+
+```git clone https://github.com/tuoreste/pipex.git && cd pipex && make && ./pipex infile "cmd1" "cmd2" outfile```
+
 ## Example
 
 Here is an example of how the program works:
